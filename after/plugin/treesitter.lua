@@ -14,4 +14,8 @@ require'nvim-treesitter.configs'.setup {
 
     additional_vim_regex_highlighting = false,
   },
+  -- treesitter highight turns off autoindent for php
+  indent = {
+      enable = true
+  }
 }
