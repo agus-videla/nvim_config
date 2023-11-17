@@ -18,6 +18,8 @@ set.undodir = os.getenv("HOME").."/.config/nvim/.undodir"
 set.undofile = true
 
 set.incsearch = true
+set.ignorecase = true
+set.smartcase = true
 
 set.termguicolors = true
 

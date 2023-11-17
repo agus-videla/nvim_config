@@ -22,7 +22,14 @@ lsp.on_attach(function(client, bufnr)
 
 end)
 
--- (Optional) Configure lua language server for neovim
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+
+require('lspconfig').phpactor.setup {
+    on_attach = on_attach,
+    init_options = {
+        ["language_server_phpstan.enabled"] = false,
+        ["language_server_psalm.enabled"] = false,
+    }
+}
 
 lsp.setup()
