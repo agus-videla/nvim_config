@@ -8,12 +8,6 @@ map("n", "<leader>pv", vim.cmd.Ex)
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
 
--- Use alt + hjkl to resize windows
-map('n', '<M-j>', ':resize -2<CR>')
-map('n', '<M-k>', ':resize +2<CR>')
-map('n', '<M-h>', ':vertical resize -2<CR>')
-map('n', '<M-l>', ':vertical resize +2<CR>')
-
 -- Better window navigation
 map('n', '<C-h>', '<C-w>h')
 map('n', '<C-j>', '<C-w>j')
