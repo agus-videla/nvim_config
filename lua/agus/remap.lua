@@ -30,7 +30,7 @@ map('v', '<leader>P', '"+P')
 map('v', '<leader>p', '"+p')
 
 -- stop highlighting after search
-map('n', '<esc>', ':noh<cr><esc>')
+map('n', '<esc>', ':noh<cr><esc>', { silent = true })
 -- mapping esc may bring problems. alternative: nnoremap <c-l> :noh<bar>diffup<cr><c-l>
 
 -- Toggle spellcheck
@@ -48,4 +48,6 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
-map("n", "Q", "<nop>")
+-- Don't add paragraph jumps to the jumplist
+map("n" , "}" , ":keepjumps norm! }<CR>", { silent = true })
+map("n" , "{" , ":keepjumps norm! {<CR>", { silent = true })
