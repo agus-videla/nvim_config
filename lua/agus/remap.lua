@@ -8,12 +8,6 @@ map("n", "<leader>pv", vim.cmd.Ex)
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
 
--- Use alt + hjkl to resize windows
-map('n', '<M-j>', ':resize -2<CR>')
-map('n', '<M-k>', ':resize +2<CR>')
-map('n', '<M-h>', ':vertical resize -2<CR>')
-map('n', '<M-l>', ':vertical resize +2<CR>')
-
 -- Better window navigation
 map('n', '<C-h>', '<C-w>h')
 map('n', '<C-j>', '<C-w>j')
@@ -36,7 +30,7 @@ map('v', '<leader>P', '"+P')
 map('v', '<leader>p', '"+p')
 
 -- stop highlighting after search
-map('n', '<esc>', ':noh<cr><esc>')
+map('n', '<esc>', ':noh<cr><esc>', { silent = true })
 -- mapping esc may bring problems. alternative: nnoremap <c-l> :noh<bar>diffup<cr><c-l>
 
 -- Toggle spellcheck
@@ -54,4 +48,6 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
-map("n", "Q", "<nop>")
+-- Don't add paragraph jumps to the jumplist
+map("n" , "}" , ":keepjumps norm! }<CR>", { silent = true })
+map("n" , "{" , ":keepjumps norm! {<CR>", { silent = true })
