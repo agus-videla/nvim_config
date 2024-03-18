@@ -26,16 +26,17 @@ return require('packer').startup(function(use)
   }
 
   use {
-	  'nvim-telescope/telescope.nvim', tag = '0.1.2',
-	  -- or                            , branch = '0.1.x',
+	  'nvim-telescope/telescope.nvim', tag = '0.1.5',
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
 
   use { "catppuccin/nvim", as = "catppuccin" }
 
-  use ( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'} )
+  use { 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'} }
 
-  use ('mbbill/undotree')
+  use { 'mbbill/undotree' }
+
+  use { 'tpope/vim-fugitive' }
 
   use {
 	  'VonHeikemen/lsp-zero.nvim',
