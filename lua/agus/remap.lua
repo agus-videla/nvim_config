@@ -50,15 +50,19 @@ map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
 -- Don't add paragraph jumps to the jumplist
-map("n" , "}" , ":keepjumps norm! }<CR>", { silent = true })
-map("n" , "{" , ":keepjumps norm! {<CR>", { silent = true })
+map("n", "}", ":keepjumps norm! }<CR>", { silent = true })
+map("n", "{", ":keepjumps norm! {<CR>", { silent = true })
 
 -- Easier zoom in and out of pane
-map("n" , "<leader>zi" , "<C-w>_<C-w>|")
-map("n" , "<leader>zo" , "<C-w>=")
+map("n", "<leader>zi", "<C-w>_<C-w>|")
+map("n", "<leader>zo", "<C-w>=")
 
 -- Quickfix navigation
-map("n" , "<leader>qf" , ":cw<CR>")  -- toggle if there are errors
-map("n" , "<leader>fn" , ":cn<CR>")  -- next item
-map("n" , "<leader>fp" , ":cp<CR>")  -- previous item
-map("n" , "<leader>ff" , ":cnf<CR>") -- first item in next fileMethod "call" is missing @param $data
+map("n", "<leader>qf", ":cw<CR>")  -- toggle if there are errors
+map("n", "<leader>fn", ":cn<CR>")  -- next item
+map("n", "<leader>fp", ":cp<CR>")  -- previous item
+map("n", "<leader>ff", ":cnf<CR>") -- first item in next fileMethod "call" is missing @param $data
+
+-- vimdiff
+map("n", "<leader>gl", ":diffget LOCAL<CR>")
+map("n", "<leader>gr", ":diffget REMOTE<CR>")
