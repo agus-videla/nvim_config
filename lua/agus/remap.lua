@@ -58,6 +58,7 @@ map("n", "<leader>zi", "<C-w>_<C-w>|")
 map("n", "<leader>zo", "<C-w>=")
 
 -- Quickfix navigation
+map("n", "<leader>qo", ":copen<CR>")  -- toggle if there are errors
 map("n", "<leader>qf", ":cw<CR>")  -- toggle if there are errors
 map("n", "<leader>fn", ":cn<CR>")  -- next item
 map("n", "<leader>fp", ":cp<CR>")  -- previous item
