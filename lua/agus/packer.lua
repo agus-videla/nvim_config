@@ -54,6 +54,10 @@ return require('packer').startup(function(use)
 	  }
   }
 
+  use { 'mfussenegger/nvim-dap' }
+
+  use { 'jay-babu/mason-nvim-dap.nvim' }
+
   if packer_bootstrap then
       require('packer').sync()
   end

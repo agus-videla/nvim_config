@@ -58,11 +58,11 @@ map("n", "<leader>zi", "<C-w>_<C-w>|")
 map("n", "<leader>zo", "<C-w>=")
 
 -- Quickfix navigation
-map("n", "<leader>qo", ":copen<CR>")  -- toggle if there are errors
+map("n", "<leader>qo", ":copen<CR>")  -- open list
 map("n", "<leader>qf", ":cw<CR>")  -- toggle if there are errors
-map("n", "<leader>fn", ":cn<CR>")  -- next item
-map("n", "<leader>fp", ":cp<CR>")  -- previous item
-map("n", "<leader>ff", ":cnf<CR>") -- first item in next fileMethod "call" is missing @param $data
+map("n", "]q", ":cn<CR>")  -- next item
+map("n", "[q", ":cp<CR>")  -- previous item
+map("n", "<leader>ff", ":cnf<CR>") -- first item in next file
 
 -- vimdiff
 map("n", "<leader>gl", ":diffget LOCAL<CR>")

@@ -36,6 +36,16 @@ require('lspconfig').phpactor.setup {
     }
 }
 
+require('lspconfig').arduino_language_server.setup {
+  cmd = {
+    "arduino-language-server",
+    "--cli-config", "/home/Agustin/.arduino15/arduino-cli.yaml",
+    "--fqbn", "esp32:esp32:esp32"
+  },
+  on_attach = on_attach,
+}
+
+
 require('lspconfig').terraformls.setup({})
 require('lspconfig').tflint.setup({})
 
