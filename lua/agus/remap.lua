@@ -49,19 +49,21 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
--- Don't add paragraph jumps to the jumplist
+-- Don't add weird shit to the jumplist
 map("n", "}", ":keepjumps norm! }<CR>", { silent = true })
 map("n", "{", ":keepjumps norm! {<CR>", { silent = true })
+map("n", "*", ":keepjumps norm! *<CR>", { silent = true })
 
 -- Easier zoom in and out of pane
 map("n", "<leader>zi", "<C-w>_<C-w>|")
 map("n", "<leader>zo", "<C-w>=")
 
 -- Quickfix navigation
-map("n", "<leader>qo", ":copen<CR>")  -- open list
-map("n", "<leader>qf", ":cw<CR>")  -- toggle if there are errors
-map("n", "]q", ":cn<CR>")  -- next item
-map("n", "[q", ":cp<CR>")  -- previous item
+map("n", "<leader>co", ":copen<CR>")  -- open list
+map("n", "<leader>cc", ":cclose<CR>")  -- open list
+map("n", "<leader>cf", ":cw<CR>")  -- toggle if there are errors
+map("n", "]c", ":cn<CR>")  -- next item
+map("n", "[c", ":cp<CR>")  -- previous item
 map("n", "<leader>ff", ":cnf<CR>") -- first item in next file
 
 -- vimdiff
