@@ -58,6 +58,8 @@ return require('packer').startup(function(use)
 
   use { 'jay-babu/mason-nvim-dap.nvim' }
 
+  use{ "stevearc/oil.nvim", config = function() require("oil").setup() end }
+
   if packer_bootstrap then
       require('packer').sync()
   end
