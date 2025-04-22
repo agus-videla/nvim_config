@@ -1,3 +1,3 @@
 require("agus.remap")
 require("agus.set")
-require("agus.packer")
+require("agus.lazy")

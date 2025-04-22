@@ -1,36 +1,53 @@
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    vim.cmd [[packadd packer.nvim]]
-    return true
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
   end
-  return false
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
--- Only required if you have packer configured as `opt`
-vim.cmd [[packadd packer.nvim]]
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
+-- This is also a good place to setup other settings (vim.opt)
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
-return require('packer').startup(function(use)
-  -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
+-- Setup lazy.nvim
+require("lazy").setup({
+  spec = {
+    -- import your plugins
+    { import = "plugins" },
+  },
+  -- Configure any other settings here. See the documentation for more details.
+  -- colorscheme that will be used when installing plugins.
+  install = { colorscheme = { "habamax" } },
+  -- automatically check for plugin updates
+  checker = { enabled = true },
+})
 
-  use {
+{
+   {
 	  'nvim-telescope/telescope.nvim', tag = '0.1.5',
 	  requires = { {'nvim-lua/plenary.nvim'} }
-  }
+   },
 
-  use { "catppuccin/nvim", as = "catppuccin" }
+   { "catppuccin/nvim", as = "catppuccin" },
 
-  use { 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'} }
+   { 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'} },
 
-  use { 'mbbill/undotree' }
+   { 'mbbill/undotree' },
 
-  use { 'tpope/vim-fugitive' }
+   { 'tpope/vim-fugitive' },
 
-  use {
+   {
 	  'VonHeikemen/lsp-zero.nvim',
 	  branch = 'v2.x',
 	  requires = {
@@ -44,13 +61,9 @@ return require('packer').startup(function(use)
 		  {'hrsh7th/cmp-nvim-lsp'}, -- Required
 		  {'L3MON4D3/LuaSnip'},     -- Required
 	  }
-  }
+  },
 
-  use { "stevearc/oil.nvim", config = function() require("oil").setup() end }
+  { "stevearc/oil.nvim", config = function() require("oil").setup() end },
 
-  use { 'lervag/vimtex' }
-
-  if packer_bootstrap then
-      require('packer').sync()
-  end
-end)
+  { 'lervag/vimtex' }
+}
