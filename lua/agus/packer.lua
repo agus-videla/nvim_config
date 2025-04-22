@@ -18,14 +18,6 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use {
-      "pmizio/typescript-tools.nvim",
-      requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-      config = function()
-          require("typescript-tools").setup {}
-      end
-  }
-
-  use {
 	  'nvim-telescope/telescope.nvim', tag = '0.1.5',
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
@@ -54,11 +46,9 @@ return require('packer').startup(function(use)
 	  }
   }
 
-  use { 'mfussenegger/nvim-dap' }
+  use { "stevearc/oil.nvim", config = function() require("oil").setup() end }
 
-  use { 'jay-babu/mason-nvim-dap.nvim' }
-
-  use{ "stevearc/oil.nvim", config = function() require("oil").setup() end }
+  use { 'lervag/vimtex' }
 
   if packer_bootstrap then
       require('packer').sync()

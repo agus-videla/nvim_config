@@ -53,6 +53,8 @@ map("n", "N", "Nzzzv")
 map("n", "}", ":keepjumps norm! }<CR>", { silent = true })
 map("n", "{", ":keepjumps norm! {<CR>", { silent = true })
 map("n", "*", ":keepjumps norm! *<CR>", { silent = true })
+map("n", "G", ":keepjumps norm! G<CR>", { silent = true })
+map("n", "gg", ":keepjumps norm! gg<CR>", { silent = true })
 
 -- Easier zoom in and out of pane
 map("n", "<leader>zi", "<C-w>_<C-w>|")
@@ -62,10 +64,11 @@ map("n", "<leader>zo", "<C-w>=")
 map("n", "<leader>co", ":copen<CR>")  -- open list
 map("n", "<leader>cc", ":cclose<CR>")  -- open list
 map("n", "<leader>cf", ":cw<CR>")  -- toggle if there are errors
-map("n", "]c", ":cn<CR>")  -- next item
-map("n", "[c", ":cp<CR>")  -- previous item
+map("n", "]f", ":cn<CR>")  -- next item
+map("n", "[f", ":cp<CR>")  -- previous item
 map("n", "<leader>ff", ":cnf<CR>") -- first item in next file
 
 -- vimdiff
 map("n", "<leader>gl", ":diffget LOCAL<CR>")
 map("n", "<leader>gr", ":diffget REMOTE<CR>")
+
