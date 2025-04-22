@@ -14,6 +14,7 @@ return {
     lazy = false,
     config = function()
         local lsp = require('lsp-zero')
+        local cmp = require('cmp')
 
         lsp.preset('recommended')
 
@@ -74,5 +75,12 @@ return {
         vim.cmd([[let g:terraform_align=1]])
 
         lsp.setup()
+
+        cmp.setup.filetype({ "sql", "mysql", "plsql" }, {
+            sources = {
+                { name = "vim-dadbod-completion" },
+                { name = "buffer" }
+            }
+        })
     end
 }
