@@ -31,7 +31,6 @@ map('v', '<leader>p', '"+p')
 
 -- stop highlighting after search
 map('n', '<esc>', ':noh<cr><esc>', { silent = true })
--- mapping esc may bring problems. alternative: nnoremap <c-l> :noh<bar>diffup<cr><c-l>
 
 -- Toggle spellcheck
 map('', '<leader>s', ':setlocal spell! spelllang=es_es,en_us<CR>')
