@@ -13,6 +13,7 @@ return {
     },
     lazy = false,
     config = function()
+        require('mason').setup()
         local lsp = require('lsp-zero')
         local cmp = require('cmp')
 
