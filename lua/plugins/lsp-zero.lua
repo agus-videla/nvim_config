@@ -1,87 +1,131 @@
 return {
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v2.x',
-    dependencies = {
-        {'neovim/nvim-lspconfig'},             -- Required
-        {'williamboman/mason.nvim'},           -- Optional
-        {'williamboman/mason-lspconfig.nvim'}, -- Optional
-
-        -- Autocompletion
-        {'hrsh7th/nvim-cmp'},     -- Required
-        {'hrsh7th/cmp-nvim-lsp'}, -- Required
-        {'L3MON4D3/LuaSnip'},     -- Required
+    -- Mason for LSP server management
+    {
+        'williamboman/mason.nvim',
+        config = function()
+            require('mason').setup()
+        end
     },
-    lazy = false,
-    config = function()
-        require('mason').setup()
-        local lsp = require('lsp-zero')
-        local cmp = require('cmp')
+    {
+        'williamboman/mason-lspconfig.nvim',
+        dependencies = { 'williamboman/mason.nvim' },
+        config = function()
+            require('mason-lspconfig').setup({
+                ensure_installed = { 'lua_ls', 'phpactor', 'terraformls', 'tflint' }
+            })
+        end
+    },
+    
+    -- Autocompletion
+    {
+        'hrsh7th/nvim-cmp',
+        dependencies = {
+            'hrsh7th/cmp-nvim-lsp',
+            'L3MON4D3/LuaSnip',
+        },
+        config = function()
+            local cmp = require('cmp')
+            local capabilities = require('cmp_nvim_lsp').default_capabilities()
+            
+            cmp.setup({
+                snippet = {
+                    expand = function(args)
+                        require('luasnip').lsp_expand(args.body)
+                    end,
+                },
+                mapping = cmp.mapping.preset.insert({
+                    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                    ['<C-Space>'] = cmp.mapping.complete(),
+                    ['<C-e>'] = cmp.mapping.abort(),
+                    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+                }),
+                sources = cmp.config.sources({
+                    { name = 'nvim_lsp' },
+                    { name = 'luasnip' },
+                }, {
+                    { name = 'buffer' },
+                })
+            })
 
-        lsp.preset('recommended')
+            cmp.setup.filetype({ "sql", "mysql", "plsql" }, {
+                sources = {
+                    { name = "vim-dadbod-completion" },
+                    { name = "buffer" }
+                }
+            })
 
-        lsp.on_attach(function(client, bufnr)
-          -- see :help lsp-zero-keybindings
-          -- to learn the available actions
-          lsp.default_keymaps({buffer = bufnr})
+            -- LSP Configuration using vim.lsp.config (new syntax)
+            local on_attach = function(client, bufnr)
+                local opts = {buffer = bufnr, remap = false}
 
-          local opts = {buffer = bufnr, remap = false}
+                vim.diagnostic.config({
+                    virtual_text = false
+                })
 
-          vim.diagnostic.config({
-            virtual_text = false
-          })
+                vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+                vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+                vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
+                vim.keymap.set("n", "<leader>e", function() vim.diagnostic.open_float() end, opts)
+                vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, opts)
+                vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, opts)
+                vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
+                vim.keymap.set("n", "<leader>qr", function() vim.lsp.buf.references() end, opts)
+                vim.keymap.set("n", "<leader>r", function() vim.lsp.buf.rename() end, opts)
+                vim.keymap.set("i", "<C-k>", function() vim.lsp.buf.signature_help() end, opts)
+            end
 
-          vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-          vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-          vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
-          vim.keymap.set("n", "<leader>e", function() vim.diagnostic.open_float() end, opts)
-          vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, opts)
-          vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, opts)
-          vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
-          vim.keymap.set("n", "<leader>qr", function() vim.lsp.buf.references() end, opts)
-          vim.keymap.set("n", "<leader>r", function() vim.lsp.buf.rename() end, opts)
-          vim.keymap.set("i", "<C-k>", function() vim.lsp.buf.signature_help() end, opts)
-
-        end)
-
-        require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
-
-        require('lspconfig').phpactor.setup {
-            on_attach = on_attach,
-            init_options = {
-                ["language_server_phpstan.enabled"] = true,
-                ["language_server_psalm.enabled"] = true,
-                ["phpunit.enabled"] = true,
+            -- Configure LSP servers using the new vim.lsp.config syntax
+            vim.lsp.config.lua_ls = {
+                capabilities = capabilities,
+                on_attach = on_attach,
+                settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { 'vim' }
+                        }
+                    }
+                }
             }
-        }
 
-        require('lspconfig').arduino_language_server.setup {
-          cmd = {
-            "arduino-language-server",
-            "--cli-config", "/home/Agustin/.arduino15/arduino-cli.yaml",
-            "--fqbn", "esp32:esp32:esp32"
-          },
-          on_attach = on_attach,
-        }
-
-
-        require('lspconfig').terraformls.setup({})
-        require('lspconfig').tflint.setup({})
-
-        vim.cmd([[silent! autocmd! filetypedetect BufRead,BufNewFile *.tf]])
-        vim.cmd([[autocmd BufRead,BufNewFile *.hcl set filetype=hcl]])
-        vim.cmd([[autocmd BufRead,BufNewFile .terraformrc,terraform.rc set filetype=hcl]])
-        vim.cmd([[autocmd BufRead,BufNewFile *.tf,*.tfvars set filetype=terraform]])
-        vim.cmd([[autocmd BufRead,BufNewFile *.tfstate,*.tfstate.backup set filetype=json]])
-        vim.cmd([[let g:terraform_fmt_on_save=1]])
-        vim.cmd([[let g:terraform_align=1]])
-
-        lsp.setup()
-
-        cmp.setup.filetype({ "sql", "mysql", "plsql" }, {
-            sources = {
-                { name = "vim-dadbod-completion" },
-                { name = "buffer" }
+            vim.lsp.config.phpactor = {
+                capabilities = capabilities,
+                on_attach = on_attach,
+                init_options = {
+                    ["language_server_phpstan.enabled"] = true,
+                    ["language_server_psalm.enabled"] = true,
+                    ["phpunit.enabled"] = true,
+                }
             }
-        })
-    end
+
+            vim.lsp.config.arduino_language_server = {
+                capabilities = capabilities,
+                cmd = {
+                    "arduino-language-server",
+                    "--cli-config", "/home/agustin/.arduino15/arduino-cli.yaml",
+                    "--fqbn", "esp32:esp32:esp32"
+                },
+                on_attach = on_attach,
+            }
+
+            vim.lsp.config.terraformls = {
+                capabilities = capabilities,
+                on_attach = on_attach,
+            }
+            
+            vim.lsp.config.tflint = {
+                capabilities = capabilities,
+                on_attach = on_attach,
+            }
+
+            -- Terraform file type configuration
+            vim.cmd([[silent! autocmd! filetypedetect BufRead,BufNewFile *.tf]])
+            vim.cmd([[autocmd BufRead,BufNewFile *.hcl set filetype=hcl]])
+            vim.cmd([[autocmd BufRead,BufNewFile .terraformrc,terraform.rc set filetype=hcl]])
+            vim.cmd([[autocmd BufRead,BufNewFile *.tf,*.tfvars set filetype=terraform]])
+            vim.cmd([[autocmd BufRead,BufNewFile *.tfstate,*.tfstate.backup set filetype=json]])
+            vim.cmd([[let g:terraform_fmt_on_save=1]])
+            vim.cmd([[let g:terraform_align=1]])
+        end
+    }
 }
