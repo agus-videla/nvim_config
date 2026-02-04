@@ -11,7 +11,7 @@ return {
         dependencies = { 'williamboman/mason.nvim' },
         config = function()
             require('mason-lspconfig').setup({
-                ensure_installed = { 'lua_ls', 'phpactor', 'terraformls', 'tflint' }
+                ensure_installed = { 'lua_ls', 'phpactor', 'pyright', 'terraformls', 'tflint' }
             })
         end
     },
@@ -116,6 +116,21 @@ return {
             vim.lsp.config.tflint = {
                 capabilities = capabilities,
                 on_attach = on_attach,
+            }
+
+            vim.lsp.config.pyright = {
+                capabilities = capabilities,
+                on_attach = on_attach,
+                cmd = { "pyright-langserver", "--stdio" },
+                filetypes = { "python" },
+                settings = {
+                    python = {
+                        analysis = {
+                            autoSearchPaths = true,
+                            useLibraryCodeForTypes = true,
+                        },
+                    },
+                },
             }
 
             -- Terraform file type configuration
