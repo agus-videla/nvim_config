@@ -1,4 +1,14 @@
 local keymap = vim.keymap
+--[[local lspconfig = require("config.lspconfig")
+vim.lsp.config(
+    "*",
+    {
+        capabilities = require("blink-cmp").get_lsp_capabilities(lspconfig.default_capabilities),
+        on_attach = lspconfig.on_attach,
+        root_markers = { ".git" },
+    }
+)
+]]
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
     callback = function(ev)
