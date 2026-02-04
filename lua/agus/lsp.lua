@@ -1,21 +1,11 @@
 local keymap = vim.keymap
---[[local lspconfig = require("config.lspconfig")
-vim.lsp.config(
-    "*",
-    {
-        capabilities = require("blink-cmp").get_lsp_capabilities(lspconfig.default_capabilities),
-        on_attach = lspconfig.on_attach,
-        root_markers = { ".git" },
-    }
-)
-]]
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
     callback = function(ev)
         -- See :help vim.lsp.*
-        local opts  = { buffer = ev.buf, silent = true }
+        local opts = { buffer = ev.buf, silent = true }
 
-        opts.desc = "Show LSP references"
+        opts.desc  = "Show LSP references"
         keymap.set("n", "<leader>r", "<cmd>Telescope lsp_references<CR>", opts)
 
         opts.desc = "Show LSP implementations"
@@ -31,7 +21,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 
         opts.desc = "Show LSP definition"
-        keymap.set({"n", "v"}, "<leader>ca", vim.lsp.buf.code_action, opts)
+        keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
 
         opts.desc = "LSP Rename"
         keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
@@ -41,6 +31,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         opts.desc = "Show Line Diagnostics"
         keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
+
+        opts.desc = "Format File"
+        keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts)
 
         opts.desc = "Go to previous diagnostic"
         keymap.set("n", "[e", function()
