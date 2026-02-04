@@ -6,6 +6,7 @@ return {
         "lua_ls",
         "phpactor",
         "pyright",
+        "gopls",
       },
     },
     dependencies = {
