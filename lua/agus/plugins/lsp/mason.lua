@@ -3,7 +3,7 @@ return {
     "mason-org/mason-lspconfig.nvim",
     opts = {
       ensure_installed = {
-        "lua_ls",
+        "lua_ls@3.16.4", -- https://github.com/folke/lazydev.nvim/issues/136
         "phpactor",
         "pyright",
         "gopls",
