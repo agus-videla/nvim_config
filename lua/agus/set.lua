@@ -1,33 +1,49 @@
-local set = vim.opt
-local setg = vim.g
+vim.o.number = true
+vim.o.relativenumber = true
 
-set.nu = true
-set.relativenumber = true
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
 
-set.tabstop = 4
-set.softtabstop = 4
-set.shiftwidth = 4
-set.expandtab = true
-set.winborder = "rounded"
+vim.o.winborder = "rounded"
+vim.o.cursorline = true -- Highlight line under cursor
 
-set.smartindent = true
+vim.o.smarttab = true
+vim.o.smartindent = true
+vim.o.autoindent = true
+vim.o.breakindent = true
+vim.o.wrap = false
 
-set.wrap = false
+vim.o.splitbelow = true
+vim.o.splitright = true
 
-set.swapfile = false
-set.backup = false
-set.undodir = os.getenv("HOME").."/.config/nvim/.undodir"
-set.undofile = true
+vim.o.swapfile = false
+vim.o.backup = false
+vim.o.undodir = os.getenv("HOME").."/.config/nvim/.undodir"
+vim.o.undofile = true
 
-set.incsearch = true
-set.ignorecase = true
-set.smartcase = true
+vim.o.incsearch = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
-set.termguicolors = true
+vim.o.termguicolors = true
 
-set.scrolloff = 8
+vim.o.scrolloff = 8
 
-set.updatetime = 50
-set.colorcolumn = "80"
+vim.o.updatetime = 50
+vim.o.colorcolumn = "80"
 
-setg.netrw_banner=0
+vim.o.signcolumn = "yes"
+
+vim.opt.list = true
+vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+    group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
+    pattern = "*",
+    callback = function ()
+        vim.highlight.on_yank()
+    end,
+    desc = "Highlight yank",
+})

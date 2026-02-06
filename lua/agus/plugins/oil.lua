@@ -69,7 +69,7 @@ return {
             ["g?"] = { "actions.show_help", mode = "n" },
             ["<CR>"] = "actions.select",
             ["<C-s>"] = { "actions.select", opts = { vertical = true } },
-            --["<C-h>"] = { "actions.select", opts = { horizontal = true } },
+            ["<C-h>"] = { "actions.select", opts = { horizontal = true } },
             ["<C-t>"] = { "actions.select", opts = { tab = true } },
             ["<C-p>"] = "actions.preview",
             ["<C-c>"] = { "actions.close", mode = "n" },
@@ -142,7 +142,7 @@ return {
             -- optionally override the oil buffers window title with custom function: fun(winid: integer): string
             get_win_title = nil,
             -- preview_split: Split direction: "auto", "left", "right", "above", "below".
-            preview_split = "auto",
+            preview_split = "right",
             -- This is the config that will be passed to nvim_open_win.
             -- Change values here to customize the layout
             override = function(conf)
@@ -208,6 +208,6 @@ return {
             border = "rounded",
           },
         })
-        vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+        vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
     end
 }
